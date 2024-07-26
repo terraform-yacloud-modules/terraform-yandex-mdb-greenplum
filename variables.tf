@@ -1,3 +1,8 @@
+variable "folder_id" {
+  description = "Yandex Cloud folder ID"
+  type        = string
+}
+
 variable "network_name" {
   description = "Name of the VPC network"
   type        = string

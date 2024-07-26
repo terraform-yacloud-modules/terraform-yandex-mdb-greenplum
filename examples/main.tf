@@ -1,6 +1,7 @@
 module "greenplum_cluster" {
   source = "../"
 
+  folder_id           = "xxx"
   network_name        = "greenplum-network"
   subnet_name         = "greenplum-subnet"
   subnet_zone         = "ru-central1-a"
@@ -17,12 +18,12 @@ module "greenplum_cluster" {
   segment_host_count  = 5
   segment_in_host     = 1
 
-  master_resources_preset = "s2.micro"
-  master_disk_size        = 24
+  master_resources_preset = "s3-c8-m32"
+  master_disk_size        = 100
   master_disk_type        = "network-ssd"
 
-  segment_resources_preset = "s2.micro"
-  segment_disk_size        = 24
+  segment_resources_preset = "s3-c8-m32"
+  segment_disk_size        = 100
   segment_disk_type        = "network-ssd"
 
   access_web_sql = true
