@@ -1,22 +1,8 @@
-resource "yandex_vpc_network" "greenplum_network" {
-  name = var.network_name
-  folder_id  = var.folder_id == null ? data.yandex_client_config.client.folder_id : var.folder_id
-}
-
-resource "yandex_vpc_subnet" "greenplum_subnet" {
-  name           = var.subnet_name
-  zone           = var.subnet_zone
-  folder_id      = var.folder_id == null ? data.yandex_client_config.client.folder_id : var.folder_id
-  network_id     = yandex_vpc_network.greenplum_network.id
-  v4_cidr_blocks = var.subnet_cidr_blocks
-}
-
 data "yandex_client_config" "client" {}
 
 resource "yandex_vpc_security_group" "greenplum_sg" {
   name       = var.security_group_name
-  folder_id  = var.folder_id == null ? data.yandex_client_config.client.folder_id : var.folder_id
-  network_id = yandex_vpc_network.greenplum_network.id
+  network_id = var.network_id
 
   ingress {
     protocol       = "ANY"
@@ -39,10 +25,9 @@ resource "yandex_mdb_greenplum_cluster" "greenplum_cluster" {
   name        = var.cluster_name
   description = var.cluster_description
   environment = var.environment
-  folder_id   = var.folder_id == null ? data.yandex_client_config.client.folder_id : var.folder_id
-  network_id  = yandex_vpc_network.greenplum_network.id
-  zone        = var.subnet_zone
-  subnet_id   = yandex_vpc_subnet.greenplum_subnet.id
+  network_id  = var.network_id
+  zone        = var.zone_id
+  subnet_id   = var.subnet_id
   assign_public_ip = var.assign_public_ip
   version     = var.greenplum_version
 

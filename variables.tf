@@ -1,19 +1,14 @@
-variable "folder_id" {
-  description = "Yandex Cloud folder ID"
+variable "network_id" {
+  description = "Yandex Cloud network ID"
   type        = string
 }
 
-variable "network_name" {
-  description = "Name of the VPC network"
+variable "subnet_id" {
+  description = "The ID of the subnet, to which the host belongs. The subnet must be a part of the network to which the cluster belongs"
   type        = string
 }
 
-variable "subnet_name" {
-  description = "Name of the VPC subnet"
-  type        = string
-}
-
-variable "subnet_zone" {
+variable "zone_id" {
   description = "Availability zone for the subnet"
   type        = string
 }
