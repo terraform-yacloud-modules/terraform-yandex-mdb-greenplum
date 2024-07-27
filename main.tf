@@ -1,5 +1,3 @@
-data "yandex_client_config" "client" {}
-
 resource "yandex_vpc_security_group" "greenplum_sg" {
   name       = var.security_group_name
   network_id = var.network_id
