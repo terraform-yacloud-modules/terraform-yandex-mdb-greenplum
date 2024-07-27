@@ -4,12 +4,11 @@ module "greenplum_cluster" {
   network_id          = "xxx"
   subnet_id           = "xxx"
   zone_id             = "ru-central1-a"
-  subnet_cidr_blocks  = ["10.5.0.0/24"]
   security_group_name = "greenplum-sg"
 
   cluster_name        = "test-greenplum"
   cluster_description = "Test Greenplum cluster"
-  environment         = "PRESTABLE"
+  environment         = "PRODUCTION"
   assign_public_ip    = true
   greenplum_version   = "6.22"
 

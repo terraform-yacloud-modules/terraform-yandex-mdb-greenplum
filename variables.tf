@@ -13,10 +13,6 @@ variable "zone_id" {
   type        = string
 }
 
-variable "subnet_cidr_blocks" {
-  description = "CIDR blocks for the subnet"
-  type        = list(string)
-}
 
 variable "security_group_name" {
   description = "Name of the security group"
@@ -30,6 +26,7 @@ variable "cluster_name" {
 
 variable "cluster_description" {
   description = "Description of the Greenplum cluster"
+  default     = null
   type        = string
 }
 
