@@ -13,10 +13,10 @@ variable "zone_id" {
   type        = string
 }
 
-
-variable "security_group_name" {
-  description = "Name of the security group"
-  type        = string
+variable "security_group_ids" {
+  description = "List of security group IDs"
+  type        = list(string)
+  default     = []
 }
 
 variable "cluster_name" {
