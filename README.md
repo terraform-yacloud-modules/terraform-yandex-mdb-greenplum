@@ -1,6 +1,6 @@
-# Yandex Cloud <RESOURCE> Terraform module
+# Yandex Cloud Greenplum Terraform module
 
-Terraform module which creates Yandex Cloud <RESOURCE> resources.
+Terraform module which creates Yandex Cloud Greenplum resources.
 
 ## Examples
 
@@ -63,7 +63,12 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_id"></a> [id](#output\_id) | ID of the created Greenplum cluster |
+| <a name="output_master_hosts"></a> [master\_hosts](#output\_master\_hosts) | Information about the master hosts of the Greenplum cluster |
+| <a name="output_name"></a> [name](#output\_name) | Name of the created Greenplum cluster |
+| <a name="output_segment_hosts"></a> [segment\_hosts](#output\_segment\_hosts) | Information about the segment hosts of the Greenplum cluster |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## License
