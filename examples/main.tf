@@ -46,8 +46,16 @@ module "greenplum_cluster" {
   access_web_sql = true
 
   greenplum_config = {
-    max_connections         = 395
-    gp_workfile_compression = "false"
+    gp_add_column_inherits_table_setting = "true"
+    gp_workfile_compression              = "false"
+    gp_workfile_limit_files_per_query    = "10"
+    gp_workfile_limit_per_segment        = "1048576"
+    gp_workfile_limit_per_query          = "1048576"
+    log_statement                        = "3" # LOG_STATEMENT_MOD
+    max_connections                      = "250"
+    max_prepared_transactions            = "350"
+    max_slot_wal_keep_size               = "1048576"
+    max_statement_mem                    = "134217728"
   }
 
   user_name     = "admin_user"
