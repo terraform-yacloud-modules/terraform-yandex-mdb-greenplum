@@ -48,8 +48,8 @@ variable "greenplum_version" {
   description = "Version of the Greenplum cluster"
   type        = string
   validation {
-    condition     = contains(["6.22", "6.25"], var.greenplum_version)
-    error_message = "The Greenplum version must be either 6.22 or 6.25."
+    condition     = contains(["6.25"], var.greenplum_version)
+    error_message = "The Greenplum version must be 6.25."
   }
 }
 

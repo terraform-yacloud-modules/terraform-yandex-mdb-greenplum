@@ -29,7 +29,7 @@ module "greenplum_cluster" {
   cluster_description = "Test Greenplum cluster"
   environment         = "PRODUCTION"
   assign_public_ip    = true
-  greenplum_version   = "6.22"
+  greenplum_version   = "6.25"
 
   master_host_count  = 2
   segment_host_count = 5
