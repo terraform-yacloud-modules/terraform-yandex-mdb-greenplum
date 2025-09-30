@@ -9,11 +9,11 @@ output "name" {
 }
 
 output "master_hosts" {
-  description = "Information about the master hosts of the Greenplum cluster"
+  description = "A list of master hosts in the Greenplum cluster, including their FQDNs, IP addresses, and configuration details."
   value       = yandex_mdb_greenplum_cluster.greenplum_cluster.master_hosts
 }
 
 output "segment_hosts" {
-  description = "Information about the segment hosts of the Greenplum cluster"
+  description = "A list of segment hosts in the Greenplum cluster, including their FQDNs, IP addresses, and configuration details."
   value       = yandex_mdb_greenplum_cluster.greenplum_cluster.segment_hosts
 }

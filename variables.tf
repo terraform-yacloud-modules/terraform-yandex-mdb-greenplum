@@ -1,10 +1,10 @@
 variable "network_id" {
-  description = "Yandex Cloud network ID"
+  description = "The ID of the VPC network where the Greenplum cluster will be deployed. All cluster hosts will be placed within this network."
   type        = string
 }
 
 variable "subnet_id" {
-  description = "The ID of the subnet, to which the host belongs. The subnet must be a part of the network to which the cluster belongs"
+  description = "The ID of the subnet where the Greenplum cluster hosts will be deployed. The subnet must be part of the specified network."
   type        = string
 }
 
@@ -14,7 +14,7 @@ variable "zone_id" {
 }
 
 variable "security_group_ids" {
-  description = "List of security group IDs"
+  description = "A list of security group IDs to assign to the Greenplum cluster hosts. Controls network access to the cluster nodes."
   type        = list(string)
   default     = []
 }
@@ -25,13 +25,13 @@ variable "cluster_name" {
 }
 
 variable "cluster_description" {
-  description = "Description of the Greenplum cluster"
+  description = "An optional description of the Greenplum cluster. Helps document the purpose and usage of the cluster."
   default     = null
   type        = string
 }
 
 variable "environment" {
-  description = "Deployment environment of the Greenplum cluster"
+  description = "The deployment environment of the Greenplum cluster. PRODUCTION for production workloads with higher availability, PRESTABLE for testing and development."
   type        = string
   validation {
     condition     = contains(["PRODUCTION", "PRESTABLE"], var.environment)
@@ -40,12 +40,12 @@ variable "environment" {
 }
 
 variable "assign_public_ip" {
-  description = "Assign a public IP to the master hosts"
+  description = "Whether to assign public IP addresses to the master hosts. Enables external access to the cluster."
   type        = bool
 }
 
 variable "greenplum_version" {
-  description = "Version of the Greenplum cluster"
+  description = "The version of Greenplum to deploy. Currently only version 6.25 is supported."
   type        = string
   validation {
     condition     = contains(["6.25"], var.greenplum_version)
@@ -54,7 +54,7 @@ variable "greenplum_version" {
 }
 
 variable "master_host_count" {
-  description = "Number of hosts in master subcluster"
+  description = "The number of hosts in the master subcluster. Must be 1 (single master) or 2 (master with standby) for high availability."
   type        = number
   validation {
     condition     = var.master_host_count == 1 || var.master_host_count == 2
@@ -63,7 +63,7 @@ variable "master_host_count" {
 }
 
 variable "segment_host_count" {
-  description = "Number of hosts in segment subcluster"
+  description = "The number of hosts in the segment subcluster. These hosts store the actual data and handle query processing."
   type        = number
   validation {
     condition     = var.segment_host_count >= 1 && var.segment_host_count <= 32
@@ -72,56 +72,56 @@ variable "segment_host_count" {
 }
 
 variable "segment_in_host" {
-  description = "Number of segments on segment host"
+  description = "The number of Greenplum segments to run on each segment host. Affects parallelism and resource utilization."
   type        = number
 }
 
 variable "master_resources_preset" {
-  description = "Resource preset for master hosts"
+  description = "The resource preset (CPU and memory configuration) for the master hosts. Determines the computational power of the master nodes."
   type        = string
 }
 
 variable "master_disk_size" {
-  description = "Disk size for master hosts"
+  description = "The disk size in GB for the master hosts. Stores metadata, logs, and temporary data."
   type        = number
 }
 
 variable "master_disk_type" {
-  description = "Disk type for master hosts"
+  description = "The disk type for the master hosts. Options include network-ssd, network-hdd, local-ssd, etc."
   type        = string
 }
 
 variable "segment_resources_preset" {
-  description = "Resource preset for segment hosts"
+  description = "The resource preset (CPU and memory configuration) for the segment hosts. Determines the computational power of the data processing nodes."
   type        = string
 }
 
 variable "segment_disk_size" {
-  description = "Disk size for segment hosts"
+  description = "The disk size in GB for the segment hosts. Stores the actual data and affects query performance."
   type        = number
 }
 
 variable "segment_disk_type" {
-  description = "Disk type for segment hosts"
+  description = "The disk type for the segment hosts. Options include network-ssd, network-hdd, local-ssd, etc."
   type        = string
 }
 
 variable "access_web_sql" {
-  description = "Allow access for SQL queries in the management console"
+  description = "Whether to enable web-based SQL query interface in the Yandex Cloud management console."
   type        = bool
 }
 
 variable "greenplum_config" {
-  description = "Greenplum cluster config"
+  description = "A map of Greenplum configuration parameters. Allows fine-tuning of cluster behavior and performance."
   type        = map(string)
 }
 
 variable "user_name" {
-  description = "Greenplum cluster admin user name"
+  description = "The username for the Greenplum cluster administrator account. Used for database access and management."
   type        = string
 }
 
 variable "user_password" {
-  description = "Greenplum cluster admin password"
+  description = "The password for the Greenplum cluster administrator account. Should be strong and stored securely."
   type        = string
 }
