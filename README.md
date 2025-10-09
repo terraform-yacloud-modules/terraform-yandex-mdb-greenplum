@@ -10,7 +10,7 @@ to give users references for how to use the module(s) as well as testing/validat
 module. If contributing to the project, please be sure to make any appropriate updates to the relevant examples to allow
 maintainers to test your changes and to keep the examples up to date for users. Thank you!
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -56,10 +56,10 @@ No modules.
 | <a name="input_segment_host_count"></a> [segment\_host\_count](#input\_segment\_host\_count) | The number of hosts in the segment subcluster. These hosts store the actual data and handle query processing. | `number` | n/a | yes |
 | <a name="input_segment_in_host"></a> [segment\_in\_host](#input\_segment\_in\_host) | The number of Greenplum segments to run on each segment host. Affects parallelism and resource utilization. | `number` | n/a | yes |
 | <a name="input_segment_resources_preset"></a> [segment\_resources\_preset](#input\_segment\_resources\_preset) | The resource preset (CPU and memory configuration) for the segment hosts. Determines the computational power of the data processing nodes. | `string` | n/a | yes |
-| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The ID of the subnet where the Greenplum cluster hosts will be deployed. The subnet must be part of the specified network. | `string` | n/a | yes |
+| <a name="input_subnet_id2"></a> [subnet\_id2](#input\_subnet\_id2) | The ID of the subnet where the Greenplum cluster hosts will be deployed. The subnet must be part of the specified network. | `string` | n/a | yes |
 | <a name="input_user_name"></a> [user\_name](#input\_user\_name) | The username for the Greenplum cluster administrator account. Used for database access and management. | `string` | n/a | yes |
 | <a name="input_user_password"></a> [user\_password](#input\_user\_password) | The password for the Greenplum cluster administrator account. Should be strong and stored securely. | `string` | n/a | yes |
-| <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | Availability zone for the subnet | `string` | n/a | yes |
+| <a name="input_zone_id1"></a> [zone\_id1](#input\_zone\_id1) | Availability zone for the subnet | `string` | n/a | yes |
 
 ## Outputs
 
@@ -69,7 +69,7 @@ No modules.
 | <a name="output_master_hosts"></a> [master\_hosts](#output\_master\_hosts) | A list of master hosts in the Greenplum cluster, including their FQDNs, IP addresses, and configuration details. |
 | <a name="output_name"></a> [name](#output\_name) | Name of the created Greenplum cluster |
 | <a name="output_segment_hosts"></a> [segment\_hosts](#output\_segment\_hosts) | A list of segment hosts in the Greenplum cluster, including their FQDNs, IP addresses, and configuration details. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## License
 
