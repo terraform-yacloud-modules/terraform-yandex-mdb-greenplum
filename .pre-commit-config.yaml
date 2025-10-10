@@ -14,6 +14,6 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      - id: check-merge-conflict # Проверка на оставшиеся маркеры слияния
-      - id: end-of-file-fixer    # Убеждается, что файл заканчивается новой строкой
-      - id: trailing-whitespace  # Удаляет лишние пробелы в конце строк
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
