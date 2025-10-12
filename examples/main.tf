@@ -30,6 +30,11 @@ module "greenplum_cluster" {
   environment         = "PRODUCTION"
   assign_public_ip    = true
   greenplum_version   = "6.25"
+  deletion_protection = true
+
+  labels = {
+    app = "test-greenplum"
+  }
 
   master_host_count  = 2
   segment_host_count = 5
@@ -60,4 +65,22 @@ module "greenplum_cluster" {
 
   user_name     = "admin_user"
   user_password = "your_super_secret_password"
+
+  maintenance_window = {
+    type = "WEEKLY"
+    day  = "MON"
+    hour = 2
+  }
+
+  backup_window_start = {
+    hours   = 2  # UTC
+    minutes = 30 # UTC
+  }
+
+  pooler_config = {
+    pooling_mode             = "SESSION"
+    pool_size                = 100
+    pool_client_idle_timeout = 600
+  }
+
 }
