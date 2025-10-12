@@ -125,3 +125,52 @@ variable "user_password" {
   description = "The password for the Greenplum cluster administrator account. Should be strong and stored securely."
   type        = string
 }
+
+variable "deletion_protection" {
+  description = "Protects the cluster from accidental deletion. When enabled, the cluster cannot be deleted through the API or console."
+  type        = bool
+  default     = false
+}
+
+variable "labels" {
+  description = "A set of key/value label pairs to assign to the Greenplum cluster. Useful for organization, billing, and automation."
+  type        = map(string)
+  default     = {}
+}
+
+variable "maintenance_window" {
+  description = "Maintenance window settings"
+  type = object({
+    type = optional(string)
+    day  = optional(string)
+    hour = optional(number)
+  })
+  default = null
+  validation {
+    condition = var.maintenance_window == null || (
+      var.maintenance_window.type == "ANYTIME" ||
+      (var.maintenance_window.type == "WEEKLY" && var.maintenance_window.day != null && var.maintenance_window.hour != null)
+    )
+    error_message = "For WEEKLY maintenance window, both day and hour must be specified. For ANYTIME, only type should be specified."
+  }
+}
+
+
+variable "backup_window_start" {
+  description = "Time to start the daily backup, in UTC. Specify hours and minutes."
+  type = object({
+    hours   = number
+    minutes = number
+  })
+  default = null
+}
+
+variable "pooler_config" {
+  description = "Connection pooler configuration based on Odyssey. Defines pooling mode, pool size, and client idle timeout."
+  type = object({
+    pooling_mode             = string
+    pool_size                = number
+    pool_client_idle_timeout = number
+  })
+  default = null
+}

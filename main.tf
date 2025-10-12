@@ -6,6 +6,7 @@ resource "yandex_mdb_greenplum_cluster" "greenplum_cluster" {
   zone        = var.zone_id
   subnet_id   = var.subnet_id
   version     = var.greenplum_version
+  labels      = var.labels
 
   assign_public_ip   = var.assign_public_ip
   master_host_count  = var.master_host_count
@@ -37,4 +38,32 @@ resource "yandex_mdb_greenplum_cluster" "greenplum_cluster" {
 
   greenplum_config   = var.greenplum_config
   security_group_ids = var.security_group_ids
+
+  deletion_protection = var.deletion_protection
+
+  dynamic "maintenance_window" {
+    for_each = var.maintenance_window != null ? [var.maintenance_window] : []
+    content {
+      type = maintenance_window.value.type
+      day  = try(maintenance_window.value.day, null)
+      hour = try(maintenance_window.value.hour, null)
+    }
+  }
+
+  dynamic "backup_window_start" {
+    for_each = var.backup_window_start == null ? [] : [var.backup_window_start]
+    content {
+      hours   = backup_window_start.value.hours
+      minutes = backup_window_start.value.minutes
+    }
+  }
+
+  dynamic "pooler_config" {
+    for_each = var.pooler_config == null ? [] : [var.pooler_config]
+    content {
+      pooling_mode             = pooler_config.value.pooling_mode
+      pool_size                = pooler_config.value.pool_size
+      pool_client_idle_timeout = pooler_config.value.pool_client_idle_timeout
+    }
+  }
 }
