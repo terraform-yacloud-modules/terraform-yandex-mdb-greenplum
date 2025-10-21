@@ -111,6 +111,18 @@ variable "access_web_sql" {
   type        = bool
 }
 
+variable "access_data_lens" {
+  description = "Allow access for DataLens."
+  type        = bool
+  default     = false
+}
+
+variable "access_data_transfer" {
+  description = "Allow access for DataTransfer."
+  type        = bool
+  default     = false
+}
+
 variable "greenplum_config" {
   description = "A map of Greenplum configuration parameters. Allows fine-tuning of cluster behavior and performance."
   type        = map(string)
