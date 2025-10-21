@@ -30,7 +30,9 @@ resource "yandex_mdb_greenplum_cluster" "greenplum_cluster" {
   }
 
   access {
-    web_sql = var.access_web_sql
+    web_sql       = var.access_web_sql
+    data_lens     = var.access_data_lens
+    data_transfer = var.access_data_transfer
   }
 
   user_name     = var.user_name
