@@ -38,6 +38,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_access_data_lens"></a> [access\_data\_lens](#input\_access\_data\_lens) | Allow access for DataLens. | `bool` | `false` | no |
+| <a name="input_access_data_transfer"></a> [access\_data\_transfer](#input\_access\_data\_transfer) | Allow access for DataTransfer. | `bool` | `false` | no |
 | <a name="input_access_web_sql"></a> [access\_web\_sql](#input\_access\_web\_sql) | Whether to enable web-based SQL query interface in the Yandex Cloud management console. | `bool` | n/a | yes |
 | <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | Whether to assign public IP addresses to the master hosts. Enables external access to the cluster. | `bool` | n/a | yes |
 | <a name="input_backup_window_start"></a> [backup\_window\_start](#input\_backup\_window\_start) | Time to start the daily backup, in UTC. Specify hours and minutes. | <pre>object({<br/>    hours   = number<br/>    minutes = number<br/>  })</pre> | `null` | no |

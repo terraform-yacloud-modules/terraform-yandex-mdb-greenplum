@@ -30,7 +30,7 @@ module "greenplum_cluster" {
   environment         = "PRODUCTION"
   assign_public_ip    = true
   greenplum_version   = "6.25"
-  deletion_protection = true
+  deletion_protection = false
 
   labels = {
     app = "test-greenplum"
