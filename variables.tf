@@ -74,6 +74,10 @@ variable "segment_host_count" {
 variable "segment_in_host" {
   description = "The number of Greenplum segments to run on each segment host. Affects parallelism and resource utilization."
   type        = number
+  validation {
+    condition     = var.segment_in_host >= 1
+    error_message = "The number of segments per host must be at least 1."
+  }
 }
 
 variable "master_resources_preset" {
@@ -84,6 +88,10 @@ variable "master_resources_preset" {
 variable "master_disk_size" {
   description = "The disk size in GB for the master hosts. Stores metadata, logs, and temporary data."
   type        = number
+  validation {
+    condition     = var.master_disk_size >= 20
+    error_message = "The master disk size must be at least 20 GB."
+  }
 }
 
 variable "master_disk_type" {
@@ -99,6 +107,10 @@ variable "segment_resources_preset" {
 variable "segment_disk_size" {
   description = "The disk size in GB for the segment hosts. Stores the actual data and affects query performance."
   type        = number
+  validation {
+    condition     = var.segment_disk_size >= 20
+    error_message = "The segment disk size must be at least 20 GB."
+  }
 }
 
 variable "segment_disk_type" {
@@ -126,16 +138,33 @@ variable "access_data_transfer" {
 variable "greenplum_config" {
   description = "A map of Greenplum configuration parameters. Allows fine-tuning of cluster behavior and performance."
   type        = map(string)
+  validation {
+    condition = alltrue([
+      for k, v in var.greenplum_config :
+      can(regex("^-?\\d+$", v)) ||
+      contains(["true", "false"], v) ||
+      (can(regex("^\\d+$", v)) && contains(["0", "1", "2", "3"], v))
+    ])
+    error_message = "Greenplum config values must be valid numbers or boolean strings (true/false)."
+  }
 }
 
 variable "user_name" {
   description = "The username for the Greenplum cluster administrator account. Used for database access and management."
   type        = string
+  validation {
+    condition     = length(var.user_name) >= 1 && length(var.user_name) <= 63
+    error_message = "The username must be between 1 and 63 characters long."
+  }
 }
 
 variable "user_password" {
   description = "The password for the Greenplum cluster administrator account. Should be strong and stored securely."
   type        = string
+  validation {
+    condition     = length(var.user_password) >= 8
+    error_message = "The password must be at least 8 characters long."
+  }
 }
 
 variable "deletion_protection" {
