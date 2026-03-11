@@ -1,3 +1,7 @@
+## v0.54.0 - 2026-03-11
+### Chores
+- 6bf3deb chore(deps): bump kvendingoldo/git-flow-action from 2.2.0 to 2.16.0 ([#56](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-greenplum/pull/56))
+
 ## v0.53.0
 ## v0.52.0
 ## v0.51.0
