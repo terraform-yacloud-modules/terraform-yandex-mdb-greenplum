@@ -85,7 +85,7 @@ module "greenplum_cluster" {
   }
 
   resource_groups = [
-    { name = "rg_analytics", memory_limit = 50, concurrency = 10 }
+    { name = "rg_analytics", cpu_rate_limit = 50, memory_limit = 50, concurrency = 10 }
   ]
   users = [
     { name = "analyst", password = "secure_password", resource_group = "rg_analytics" }
