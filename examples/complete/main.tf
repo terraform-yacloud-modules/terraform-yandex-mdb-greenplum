@@ -29,7 +29,7 @@ module "greenplum_cluster" {
   cluster_description = "Test Greenplum cluster"
   environment         = "PRODUCTION"
   assign_public_ip    = true
-  greenplum_version   = "6.25"
+  greenplum_version   = "6.28"
   deletion_protection = false
 
   labels = {
@@ -37,7 +37,7 @@ module "greenplum_cluster" {
   }
 
   master_host_count  = 2
-  segment_host_count = 5
+  segment_host_count = 4
   segment_in_host    = 1
 
   master_resources_preset = "s3-c8-m32"
@@ -48,7 +48,8 @@ module "greenplum_cluster" {
   segment_disk_size        = 93
   segment_disk_type        = "network-ssd-nonreplicated"
 
-  access_web_sql = true
+  access_web_sql      = true
+  access_yandex_query = false
 
   greenplum_config = {
     gp_add_column_inherits_table_setting = "true"
@@ -83,4 +84,11 @@ module "greenplum_cluster" {
     pool_client_idle_timeout = 600
   }
 
+  # Optional: create resource groups and additional users
+  # resource_groups = [
+  #   { name = "rg_analytics", memory_limit = 0.5, concurrency = 10 }
+  # ]
+  # users = [
+  #   { name = "analyst", password = "secure_password", resource_group = "rg_analytics" }
+  # ]
 }

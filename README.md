@@ -33,6 +33,8 @@ No modules.
 | Name | Type |
 |------|------|
 | [yandex_mdb_greenplum_cluster.greenplum_cluster](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/mdb_greenplum_cluster) | resource |
+| [yandex_mdb_greenplum_resource_group.resource_group](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/mdb_greenplum_resource_group) | resource |
+| [yandex_mdb_greenplum_user.user](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/mdb_greenplum_user) | resource |
 
 ## Inputs
 
@@ -41,41 +43,55 @@ No modules.
 | <a name="input_access_data_lens"></a> [access\_data\_lens](#input\_access\_data\_lens) | Allow access for DataLens. | `bool` | `false` | no |
 | <a name="input_access_data_transfer"></a> [access\_data\_transfer](#input\_access\_data\_transfer) | Allow access for DataTransfer. | `bool` | `false` | no |
 | <a name="input_access_web_sql"></a> [access\_web\_sql](#input\_access\_web\_sql) | Whether to enable web-based SQL query interface in the Yandex Cloud management console. | `bool` | n/a | yes |
+| <a name="input_access_yandex_query"></a> [access\_yandex\_query](#input\_access\_yandex\_query) | Allow access for Yandex Query. | `bool` | `false` | no |
 | <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | Whether to assign public IP addresses to the master hosts. Enables external access to the cluster. | `bool` | n/a | yes |
+| <a name="input_background_activities"></a> [background\_activities](#input\_background\_activities) | Background activities configuration: analyze\_and\_vacuum, query killer scripts. | <pre>object({<br/>    analyze_and_vacuum = optional(object({<br/>      vacuum_timeout  = optional(number)<br/>      analyze_timeout = optional(number)<br/>      start_time      = optional(string) # HH:MM<br/>    }))<br/>    query_killer_long_running = optional(object({<br/>      enable       = optional(bool)<br/>      max_age      = optional(number)<br/>      ignore_users = optional(list(string))<br/>    }))<br/>    query_killer_idle_in_transaction = optional(object({<br/>      enable       = optional(bool)<br/>      max_age      = optional(number)<br/>      ignore_users = optional(list(string))<br/>    }))<br/>    query_killer_idle = optional(object({<br/>      enable       = optional(bool)<br/>      max_age      = optional(number)<br/>      ignore_users = optional(list(string))<br/>    }))<br/>  })</pre> | `null` | no |
 | <a name="input_backup_window_start"></a> [backup\_window\_start](#input\_backup\_window\_start) | Time to start the daily backup, in UTC. Specify hours and minutes. | <pre>object({<br/>    hours   = number<br/>    minutes = number<br/>  })</pre> | `null` | no |
+| <a name="input_cloud_storage"></a> [cloud\_storage](#input\_cloud\_storage) | Enable Cloud Storage for the cluster. | <pre>object({<br/>    enable = bool<br/>  })</pre> | `null` | no |
 | <a name="input_cluster_description"></a> [cluster\_description](#input\_cluster\_description) | An optional description of the Greenplum cluster. Helps document the purpose and usage of the cluster. | `string` | `null` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the Greenplum cluster | `string` | n/a | yes |
 | <a name="input_deletion_protection"></a> [deletion\_protection](#input\_deletion\_protection) | Protects the cluster from accidental deletion. When enabled, the cluster cannot be deleted through the API or console. | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The deployment environment of the Greenplum cluster. PRODUCTION for production workloads with higher availability, PRESTABLE for testing and development. | `string` | n/a | yes |
 | <a name="input_greenplum_config"></a> [greenplum\_config](#input\_greenplum\_config) | A map of Greenplum configuration parameters. Allows fine-tuning of cluster behavior and performance. | `map(string)` | n/a | yes |
-| <a name="input_greenplum_version"></a> [greenplum\_version](#input\_greenplum\_version) | The version of Greenplum to deploy. Currently only version 6.25 is supported. | `string` | n/a | yes |
+| <a name="input_greenplum_version"></a> [greenplum\_version](#input\_greenplum\_version) | The version of Greenplum to deploy. Supported: 6.25, 6.28. | `string` | n/a | yes |
 | <a name="input_labels"></a> [labels](#input\_labels) | A set of key/value label pairs to assign to the Greenplum cluster. Useful for organization, billing, and automation. | `map(string)` | `{}` | no |
+| <a name="input_logging"></a> [logging](#input\_logging) | Logging configuration for the cluster. | <pre>object({<br/>    enabled                = optional(bool)<br/>    log_group_id           = optional(string)<br/>    folder_id              = optional(string)<br/>    greenplum_enabled      = optional(bool)<br/>    pooler_enabled         = optional(bool)<br/>    command_center_enabled = optional(bool)<br/>  })</pre> | `null` | no |
 | <a name="input_maintenance_window"></a> [maintenance\_window](#input\_maintenance\_window) | Maintenance window settings | <pre>object({<br/>    type = optional(string)<br/>    day  = optional(string)<br/>    hour = optional(number)<br/>  })</pre> | `null` | no |
 | <a name="input_master_disk_size"></a> [master\_disk\_size](#input\_master\_disk\_size) | The disk size in GB for the master hosts. Stores metadata, logs, and temporary data. | `number` | n/a | yes |
 | <a name="input_master_disk_type"></a> [master\_disk\_type](#input\_master\_disk\_type) | The disk type for the master hosts. Options include network-ssd, network-hdd, local-ssd, etc. | `string` | n/a | yes |
 | <a name="input_master_host_count"></a> [master\_host\_count](#input\_master\_host\_count) | The number of hosts in the master subcluster. Must be 1 (single master) or 2 (master with standby) for high availability. | `number` | n/a | yes |
+| <a name="input_master_host_group_ids"></a> [master\_host\_group\_ids](#input\_master\_host\_group\_ids) | A list of IDs of the host groups to place master subclusters' VMs of the cluster on. | `set(string)` | `[]` | no |
 | <a name="input_master_resources_preset"></a> [master\_resources\_preset](#input\_master\_resources\_preset) | The resource preset (CPU and memory configuration) for the master hosts. Determines the computational power of the master nodes. | `string` | n/a | yes |
 | <a name="input_network_id"></a> [network\_id](#input\_network\_id) | The ID of the VPC network where the Greenplum cluster will be deployed. All cluster hosts will be placed within this network. | `string` | n/a | yes |
-| <a name="input_pooler_config"></a> [pooler\_config](#input\_pooler\_config) | Connection pooler configuration based on Odyssey. Defines pooling mode, pool size, and client idle timeout. | <pre>object({<br/>    pooling_mode             = string<br/>    pool_size                = number<br/>    pool_client_idle_timeout = number<br/>  })</pre> | `null` | no |
+| <a name="input_pooler_config"></a> [pooler\_config](#input\_pooler\_config) | Connection pooler configuration based on Odyssey. Defines pooling mode, pool size, and client idle timeout. | <pre>object({<br/>    pooling_mode                     = string<br/>    pool_size                        = number<br/>    pool_client_idle_timeout         = number<br/>    pool_idle_in_transaction_timeout = optional(number)<br/>  })</pre> | `null` | no |
+| <a name="input_pxf_config"></a> [pxf\_config](#input\_pxf\_config) | PXF (Protocol eXtensible Framework) configuration. | <pre>object({<br/>    connection_timeout             = optional(number)<br/>    max_threads                    = optional(number)<br/>    pool_allow_core_thread_timeout = optional(bool)<br/>    pool_core_size                 = optional(number)<br/>    pool_max_size                  = optional(number)<br/>    pool_queue_capacity            = optional(number)<br/>    upload_timeout                 = optional(number)<br/>    xms                            = optional(number)<br/>    xmx                            = optional(number)<br/>  })</pre> | `null` | no |
+| <a name="input_resource_groups"></a> [resource\_groups](#input\_resource\_groups) | List of Greenplum resource groups to create in the cluster. Optional; cluster has default groups. | <pre>list(object({<br/>    name                = string<br/>    concurrency         = optional(number)<br/>    cpu_rate_limit      = optional(number)<br/>    memory_limit        = optional(number)<br/>    memory_shared_quota = optional(number)<br/>    memory_spill_ratio  = optional(number)<br/>  }))</pre> | `[]` | no |
 | <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | A list of security group IDs to assign to the Greenplum cluster hosts. Controls network access to the cluster nodes. | `list(string)` | `[]` | no |
 | <a name="input_segment_disk_size"></a> [segment\_disk\_size](#input\_segment\_disk\_size) | The disk size in GB for the segment hosts. Stores the actual data and affects query performance. | `number` | n/a | yes |
 | <a name="input_segment_disk_type"></a> [segment\_disk\_type](#input\_segment\_disk\_type) | The disk type for the segment hosts. Options include network-ssd, network-hdd, local-ssd, etc. | `string` | n/a | yes |
 | <a name="input_segment_host_count"></a> [segment\_host\_count](#input\_segment\_host\_count) | The number of hosts in the segment subcluster. These hosts store the actual data and handle query processing. | `number` | n/a | yes |
+| <a name="input_segment_host_group_ids"></a> [segment\_host\_group\_ids](#input\_segment\_host\_group\_ids) | A list of IDs of the host groups to place segment subclusters' VMs of the cluster on. | `set(string)` | `[]` | no |
 | <a name="input_segment_in_host"></a> [segment\_in\_host](#input\_segment\_in\_host) | The number of Greenplum segments to run on each segment host. Affects parallelism and resource utilization. | `number` | n/a | yes |
 | <a name="input_segment_resources_preset"></a> [segment\_resources\_preset](#input\_segment\_resources\_preset) | The resource preset (CPU and memory configuration) for the segment hosts. Determines the computational power of the data processing nodes. | `string` | n/a | yes |
+| <a name="input_service_account_id"></a> [service\_account\_id](#input\_service\_account\_id) | ID of service account to use with Yandex Cloud resources (e.g. S3, Cloud Logging). | `string` | `null` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The ID of the subnet where the Greenplum cluster hosts will be deployed. The subnet must be part of the specified network. | `string` | n/a | yes |
+| <a name="input_timeouts"></a> [timeouts](#input\_timeouts) | Timeout settings for cluster operations (create, update, delete). | <pre>object({<br/>    create = optional(string)<br/>    update = optional(string)<br/>    delete = optional(string)<br/>  })</pre> | `null` | no |
 | <a name="input_user_name"></a> [user\_name](#input\_user\_name) | The username for the Greenplum cluster administrator account. Used for database access and management. | `string` | n/a | yes |
 | <a name="input_user_password"></a> [user\_password](#input\_user\_password) | The password for the Greenplum cluster administrator account. Should be strong and stored securely. | `string` | n/a | yes |
+| <a name="input_users"></a> [users](#input\_users) | Additional Greenplum users to create (besides the cluster admin from user\_name/user\_password). | <pre>list(object({<br/>    name           = string<br/>    password       = string<br/>    resource_group = optional(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | Availability zone for the subnet | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
+| <a name="output_cluster_id"></a> [cluster\_id](#output\_cluster\_id) | ID of the Greenplum cluster (alias for id, for use in yandex\_mdb\_greenplum\_* resources) |
 | <a name="output_id"></a> [id](#output\_id) | ID of the created Greenplum cluster |
 | <a name="output_master_hosts"></a> [master\_hosts](#output\_master\_hosts) | A list of master hosts in the Greenplum cluster, including their FQDNs, IP addresses, and configuration details. |
 | <a name="output_name"></a> [name](#output\_name) | Name of the created Greenplum cluster |
+| <a name="output_resource_group_ids"></a> [resource\_group\_ids](#output\_resource\_group\_ids) | Map of resource group names to their IDs (when resource\_groups variable is used) |
 | <a name="output_segment_hosts"></a> [segment\_hosts](#output\_segment\_hosts) | A list of segment hosts in the Greenplum cluster, including their FQDNs, IP addresses, and configuration details. |
+| <a name="output_user_ids"></a> [user\_ids](#output\_user\_ids) | Map of user names to their IDs (when users variable is used) |
 <!-- END_TF_DOCS -->
 
 ## License
