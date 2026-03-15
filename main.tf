@@ -176,4 +176,7 @@ resource "yandex_mdb_greenplum_user" "user" {
   name           = each.value.name
   password       = each.value.password
   resource_group = try(each.value.resource_group, null)
+
+  # Destroy users before resource groups (API rejects group delete while user uses it)
+  depends_on = [yandex_mdb_greenplum_resource_group.resource_group]
 }
