@@ -84,11 +84,10 @@ module "greenplum_cluster" {
     pool_client_idle_timeout = 600
   }
 
-  # Optional: create resource groups and additional users
-  # resource_groups = [
-  #   { name = "rg_analytics", memory_limit = 0.5, concurrency = 10 }
-  # ]
-  # users = [
-  #   { name = "analyst", password = "secure_password", resource_group = "rg_analytics" }
-  # ]
+  resource_groups = [
+    { name = "rg_analytics", memory_limit = 50, concurrency = 10 }
+  ]
+  users = [
+    { name = "analyst", password = "secure_password", resource_group = "rg_analytics" }
+  ]
 }
