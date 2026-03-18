@@ -19,6 +19,24 @@ variable "security_group_ids" {
   default     = []
 }
 
+variable "master_host_group_ids" {
+  description = "A list of IDs of the host groups to place master subclusters' VMs of the cluster on."
+  type        = set(string)
+  default     = []
+}
+
+variable "segment_host_group_ids" {
+  description = "A list of IDs of the host groups to place segment subclusters' VMs of the cluster on."
+  type        = set(string)
+  default     = []
+}
+
+variable "service_account_id" {
+  description = "ID of service account to use with Yandex Cloud resources (e.g. S3, Cloud Logging)."
+  type        = string
+  default     = null
+}
+
 variable "cluster_name" {
   description = "Name of the Greenplum cluster"
   type        = string
@@ -45,11 +63,12 @@ variable "assign_public_ip" {
 }
 
 variable "greenplum_version" {
-  description = "The version of Greenplum to deploy. Currently only version 6.25 is supported."
+  description = "The version of Greenplum to deploy. Supported: 6.28 (6.25 is no longer supported by the API)."
   type        = string
+  default     = "6.28"
   validation {
-    condition     = contains(["6.25"], var.greenplum_version)
-    error_message = "The Greenplum version must be 6.25."
+    condition     = contains(["6.28"], var.greenplum_version)
+    error_message = "The Greenplum version must be 6.28."
   }
 }
 
@@ -135,6 +154,12 @@ variable "access_data_transfer" {
   default     = false
 }
 
+variable "access_yandex_query" {
+  description = "Allow access for Yandex Query."
+  type        = bool
+  default     = false
+}
+
 variable "greenplum_config" {
   description = "A map of Greenplum configuration parameters. Allows fine-tuning of cluster behavior and performance."
   type        = map(string)
@@ -209,9 +234,107 @@ variable "backup_window_start" {
 variable "pooler_config" {
   description = "Connection pooler configuration based on Odyssey. Defines pooling mode, pool size, and client idle timeout."
   type = object({
-    pooling_mode             = string
-    pool_size                = number
-    pool_client_idle_timeout = number
+    pooling_mode                     = string
+    pool_size                        = number
+    pool_client_idle_timeout         = number
+    pool_idle_in_transaction_timeout = optional(number)
   })
   default = null
+}
+
+variable "cloud_storage" {
+  description = "Enable Cloud Storage for the cluster."
+  type = object({
+    enable = bool
+  })
+  default = null
+}
+
+variable "logging" {
+  description = "Logging configuration for the cluster."
+  type = object({
+    enabled                = optional(bool)
+    log_group_id           = optional(string)
+    folder_id              = optional(string)
+    greenplum_enabled      = optional(bool)
+    pooler_enabled         = optional(bool)
+    command_center_enabled = optional(bool)
+  })
+  default = null
+}
+
+variable "background_activities" {
+  description = "Background activities configuration: analyze_and_vacuum, query killer scripts."
+  type = object({
+    analyze_and_vacuum = optional(object({
+      vacuum_timeout  = optional(number)
+      analyze_timeout = optional(number)
+      start_time      = optional(string) # HH:MM
+    }))
+    query_killer_long_running = optional(object({
+      enable       = optional(bool)
+      max_age      = optional(number)
+      ignore_users = optional(list(string))
+    }))
+    query_killer_idle_in_transaction = optional(object({
+      enable       = optional(bool)
+      max_age      = optional(number)
+      ignore_users = optional(list(string))
+    }))
+    query_killer_idle = optional(object({
+      enable       = optional(bool)
+      max_age      = optional(number)
+      ignore_users = optional(list(string))
+    }))
+  })
+  default = null
+}
+
+variable "pxf_config" {
+  description = "PXF (Protocol eXtensible Framework) configuration."
+  type = object({
+    connection_timeout             = optional(number)
+    max_threads                    = optional(number)
+    pool_allow_core_thread_timeout = optional(bool)
+    pool_core_size                 = optional(number)
+    pool_max_size                  = optional(number)
+    pool_queue_capacity            = optional(number)
+    upload_timeout                 = optional(number)
+    xms                            = optional(number)
+    xmx                            = optional(number)
+  })
+  default = null
+}
+
+variable "timeouts" {
+  description = "Timeout settings for cluster operations (create, update, delete)."
+  type = object({
+    create = optional(string)
+    update = optional(string)
+    delete = optional(string)
+  })
+  default = null
+}
+
+variable "resource_groups" {
+  description = "List of Greenplum resource groups to create in the cluster. Optional; cluster has default groups."
+  type = list(object({
+    name                = string
+    concurrency         = optional(number)
+    cpu_rate_limit      = optional(number)
+    memory_limit        = optional(number)
+    memory_shared_quota = optional(number)
+    memory_spill_ratio  = optional(number)
+  }))
+  default = []
+}
+
+variable "users" {
+  description = "Additional Greenplum users to create (besides the cluster admin from user_name/user_password)."
+  type = list(object({
+    name           = string
+    password       = string
+    resource_group = optional(string)
+  }))
+  default = []
 }
