@@ -1,3 +1,7 @@
+## v0.55.0 - 2026-03-18
+### Miscellaneous
+- a2dc78e Add mdb_greenplum_resource_group/user ([#58](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-greenplum/pull/58))
+
 ## v0.54.0 - 2026-03-11
 ### Chores
 - 6bf3deb chore(deps): bump kvendingoldo/git-flow-action from 2.2.0 to 2.16.0 ([#56](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-greenplum/pull/56))
