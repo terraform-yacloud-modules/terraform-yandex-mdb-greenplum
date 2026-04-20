@@ -1,3 +1,7 @@
+## v0.57.0 - 2026-04-20
+### Chores
+- 04e80d2 chore(deps): bump actions/cache from 5.0.4 to 5.0.5 ([#60](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-greenplum/pull/60))
+
 ## v0.56.0 - 2026-03-23
 ### Chores
 - a0a9b63 chore(deps): bump actions/cache from 5.0.3 to 5.0.4 ([#59](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-greenplum/pull/59))
